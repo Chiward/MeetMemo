@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  # Redis服务 - 用于Celery任务队列
+  redis:
+    image: redis:7-alpine
+    container_name: meetmemo_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  # PostgreSQL数据库 (生产环境)
+  # 开发环境可以使用SQLite，这里提供生产配置
+  db:
+    image: postgres:15-alpine
+    container_name: meetmemo_db
+    environment:
+      POSTGRES_DB: meetmemo
+      POSTGRES_USER: meetmemo
+      POSTGRES_PASSWORD: meetmemo_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # 后端API服务
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: meetmemo_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://meetmemo:meetmemo_password@db:5432/meetmemo
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - ./backend:/app
+      - ./uploads:/app/uploads
+      - whisper_models:/app/models  # Whisper模型缓存
+    depends_on:
+      - redis
+      - db
+    restart: unless-stopped
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Celery Worker服务
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: meetmemo_celery
+    environment:
+      - DATABASE_URL=postgresql://meetmemo:meetmemo_password@db:5432/meetmemo
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      - ./backend:/app
+      - ./uploads:/app/uploads
+      - whisper_models:/app/models
+    depends_on:
+      - redis
+      - db
+    restart: unless-stopped
+    command: celery -A app.tasks.celery worker --loglevel=info
+
+  # 前端服务
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: meetmemo_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+    command: npm run dev
+
+  # Nginx反向代理 (生产环境)
+  nginx:
+    image: nginx:alpine
+    container_name: meetmemo_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./frontend/dist:/usr/share/nginx/html
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+    profiles:
+      - production
+
+volumes:
+  redis_data:
+  postgres_data:
+  whisper_models:
+
+networks:
+  default:
+    name: meetmemo_network

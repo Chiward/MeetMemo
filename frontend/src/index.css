@@ -1,0 +1,294 @@
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* 应用容器 */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 主内容区域 */
+.main-content {
+  flex: 1;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 卡片样式 */
+.content-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+/* 上传区域样式 */
+.upload-area {
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.upload-area:hover {
+  border-color: #1890ff;
+  background-color: #f0f8ff;
+}
+
+.upload-area.dragover {
+  border-color: #1890ff;
+  background-color: #e6f7ff;
+}
+
+/* 进度条样式 */
+.progress-container {
+  margin: 20px 0;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #e9ecef;
+}
+
+.progress-step.active {
+  background: #e6f7ff;
+  border-left-color: #1890ff;
+}
+
+.progress-step.completed {
+  background: #f6ffed;
+  border-left-color: #52c41a;
+}
+
+.progress-step.error {
+  background: #fff2f0;
+  border-left-color: #ff4d4f;
+}
+
+/* 结果展示样式 */
+.result-container {
+  margin-top: 24px;
+}
+
+.transcription-text {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 16px;
+  font-family: 'Courier New', monospace;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.summary-content {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 20px;
+  line-height: 1.8;
+}
+
+.summary-content h1,
+.summary-content h2,
+.summary-content h3 {
+  margin-top: 20px;
+  margin-bottom: 12px;
+  color: #262626;
+}
+
+.summary-content h1 {
+  font-size: 24px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 8px;
+}
+
+.summary-content h2 {
+  font-size: 20px;
+  color: #1890ff;
+}
+
+.summary-content h3 {
+  font-size: 16px;
+}
+
+.summary-content ul,
+.summary-content ol {
+  margin-left: 20px;
+  margin-bottom: 12px;
+}
+
+.summary-content li {
+  margin-bottom: 6px;
+}
+
+.summary-content strong {
+  color: #262626;
+}
+
+.summary-content hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* 操作按钮组 */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px;
+  }
+  
+  .content-card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .upload-area {
+    padding: 24px 16px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons .ant-btn {
+    width: 100%;
+  }
+}
+
+/* 加载动画 */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 错误提示样式 */
+.error-message {
+  color: #ff4d4f;
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 12px 0;
+}
+
+/* 成功提示样式 */
+.success-message {
+  color: #52c41a;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 12px 0;
+}
+
+/* 模型选择组件样式 */
+.model-select-option {
+  padding: 12px 8px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.model-select-option .model-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+}
+
+.model-select-option .model-details {
+  flex: 1;
+  padding-right: 12px;
+}
+
+.model-select-option .model-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.model-select-option .model-description {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.model-select-option .model-specs {
+  text-align: right;
+  font-size: 12px;
+  color: #999;
+  min-width: 100px;
+  line-height: 1.3;
+}
+
+/* 响应式设计增强 */
+@media (max-width: 576px) {
+  .model-select-option .model-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .model-select-option .model-specs {
+    text-align: left;
+    margin-top: 4px;
+    min-width: auto;
+  }
+  
+  .model-select-option .model-specs div {
+    display: inline;
+    margin-right: 12px;
+  }
+}

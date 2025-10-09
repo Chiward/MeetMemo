@@ -1,0 +1,64 @@
+# Web Framework
+fastapi>=0.100.0
+uvicorn[standard]>=0.20.0
+
+# Database
+sqlalchemy>=2.0.0
+alembic>=1.12.0
+# sqlite3 is built-in with Python
+
+# For PostgreSQL (production)
+psycopg2-binary>=2.9.0
+
+# Authentication & Security
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-multipart>=0.0.6
+cryptography>=42.0.0
+
+# HTTP Client
+httpx>=0.25.0
+requests>=2.31.0
+
+# Task Queue
+celery>=5.3.0
+redis>=5.0.0
+
+# AI & Audio Processing
+openai-whisper>=20231117
+torch>=2.2.0
+torchaudio>=2.2.0
+
+# File Processing
+python-magic==0.4.27  # File type detection
+pydub==0.25.1  # Audio processing
+
+# Configuration
+python-dotenv==1.0.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# CORS
+fastapi-cors==0.0.6
+
+# Logging
+loguru==0.7.2
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.2  # For testing async endpoints
+
+# Development
+black==23.11.0
+flake8==6.1.0
+isort==5.12.0
+
+# File Upload
+aiofiles==23.2.1
+
+# Date/Time
+python-dateutil==2.8.2
+
+# JSON
+orjson==3.9.10

@@ -1,0 +1,16 @@
+{
+  "short_name": "MeetMemo",
+  "name": "MeetMemo - AI智能会议纪要生成助手",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "description": "AI智能会议纪要生成助手，快速将会议录音转换为结构化纪要"
+}
