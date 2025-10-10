@@ -4,8 +4,6 @@
 
 import os
 import shutil
-import whisper
-import torch
 from pathlib import Path
 from typing import Dict, Any
 from celery import current_task
@@ -144,6 +142,10 @@ def load_whisper_model(model_name: str = "base"):
         加载的模型
     """
     try:
+        # 导入whisper和torch（延迟导入）
+        import whisper
+        import torch
+        
         # 设置设备
         device = "cuda" if torch.cuda.is_available() and settings.WHISPER_DEVICE == "cuda" else "cpu"
         

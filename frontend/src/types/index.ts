@@ -159,7 +159,7 @@ export interface LanguageOption {
 }
 
 // 导出格式类型
-export type ExportFormat = 'markdown' | 'txt' | 'docx' | 'pdf';
+export type ExportFormat = 'markdown' | 'txt';
 
 // Whisper模型类型
 export type WhisperModel = 'base' | 'large' | 'turbo';

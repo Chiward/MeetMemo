@@ -128,19 +128,6 @@ export const exportFile = (content: string, filename: string, format: ExportForm
       finalFilename = `${filename}.txt`;
       break;
       
-    case 'docx':
-      // 简单的HTML格式，实际项目中可能需要使用专门的库
-      const htmlContent = content.replace(/\n/g, '<br>');
-      blob = new Blob([htmlContent], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-      finalFilename = `${filename}.docx`;
-      break;
-      
-    case 'pdf':
-      // PDF导出需要专门的库，这里先用文本格式
-      blob = new Blob([content], { type: 'application/pdf' });
-      finalFilename = `${filename}.pdf`;
-      break;
-      
     default:
       blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
       finalFilename = `${filename}.txt`;
@@ -245,8 +232,6 @@ export const WHISPER_MODEL_OPTIONS: WhisperModelOption[] = [
 export const EXPORT_FORMAT_OPTIONS = [
   { value: 'markdown', label: 'Markdown (.md)' },
   { value: 'txt', label: '纯文本 (.txt)' },
-  { value: 'docx', label: 'Word文档 (.docx)' },
-  { value: 'pdf', label: 'PDF文档 (.pdf)' },
 ];
 
 /**
