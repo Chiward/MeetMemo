@@ -24,7 +24,7 @@ async def test_deepseek_connection():
                     "Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"
                 },
                 json={
-                    "model": "deepseek-chat",
+                    "model": "deepseek-reasoner",
                     "messages": [
                         {"role": "system", "content": "You are a helpful assistant."},
                         {"role": "user", "content": "Hello! Please respond with 'API connection successful'."}
@@ -96,7 +96,7 @@ async def test_meeting_summary():
                     "Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"
                 },
                 json={
-                    "model": "deepseek-chat",
+                    "model": "deepseek-reasoner",
                     "messages": [
                         {"role": "system", "content": "你是一个专业的会议纪要生成助手，能够根据会议转录内容生成结构化的会议纪要。"},
                         {"role": "user", "content": prompt}

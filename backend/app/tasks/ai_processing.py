@@ -254,7 +254,7 @@ def call_deepseek_api(prompt: str) -> Dict[str, Any]:
         
         # 构建请求数据
         request_data = {
-            "model": "deepseek-chat",
+            "model": "deepseek-reasoner",
             "messages": [
                 {
                     "role": "user",

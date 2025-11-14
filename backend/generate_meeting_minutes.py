@@ -34,7 +34,7 @@ async def call_deepseek_api(prompt: str) -> dict:
                     "Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"
                 },
                 json={
-                    "model": "deepseek-chat",
+                    "model": "deepseek-reasoner",
                     "messages": [
                         {
                             "role": "system", 
@@ -110,7 +110,7 @@ async def generate_meeting_minutes(meeting_topic: str = None, meeting_type: str 
 5. 参会人员列表包含5-8人，职务和姓名要合理
 6. 分送单位要包含相关的集团部门和公司
 7. 保持原有的Markdown格式和层级结构
-8. 内容要逻辑清晰，语言规范，符合正式会议纪要的要求
+8. 内容要全面详细，逻辑清晰，语言规范，符合正式会议纪要的要求
 
 请生成完整的会议纪要文档：
 """
