@@ -147,7 +147,11 @@ def load_whisper_model(model_name: str = "base"):
         import torch
         
         # 设置设备
-        device = "cuda" if torch.cuda.is_available() and settings.WHISPER_DEVICE == "cuda" else "cpu"
+        # 优先使用配置的设备，如果配置为cuda但不可用则回退到cpu
+        if settings.WHISPER_DEVICE == "cuda" and torch.cuda.is_available():
+            device = "cuda"
+        else:
+            device = "cpu"
         
         # 确保模型目录存在
         models_dir = Path(settings.WHISPER_MODELS_DIR)
@@ -178,9 +182,13 @@ def transcribe_audio(model, file_path: str, language: str = "auto") -> Dict[str,
         转录结果
     """
     try:
+        # 检查模型设备
+        device = next(model.parameters()).device
+        is_cuda = device.type == "cuda"
+
         # 设置转录选项
         options = {
-            "fp16": False,  # 避免在CPU上使用fp16
+            "fp16": is_cuda,  # 在GPU上使用fp16，CPU上使用fp32
             "language": None if language == "auto" else language,
             "task": "transcribe"
         }

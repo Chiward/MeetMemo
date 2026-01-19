@@ -35,8 +35,8 @@ pydub==0.25.1  # Audio processing
 
 # Configuration
 python-dotenv==1.0.0
-pydantic==2.5.0
-pydantic-settings==2.1.0
+pydantic>=2.7.0
+pydantic-settings>=2.1.0
 
 # CORS
 fastapi-cors==0.0.6

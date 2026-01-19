@@ -44,13 +44,17 @@ def start_backend():
     """启动后端服务"""
     print("🚀 启动后端服务...")
     try:
-        subprocess.run([
+        cmd = [
             sys.executable, "-m", "uvicorn", 
             "main:app", 
             "--host", "0.0.0.0", 
-            "--port", "8000", 
-            "--reload"
-        ], check=True)
+            "--port", "8000"
+        ]
+        # 仅在开发环境下启用 reload，打包环境下禁用
+        if os.environ.get("MEETMEMO_ENV") == "development":
+             cmd.append("--reload")
+             
+        subprocess.run(cmd, check=True)
     except KeyboardInterrupt:
         print("\n👋 服务已停止")
     except subprocess.CalledProcessError as e:
@@ -69,9 +73,9 @@ def main():
     # 创建目录
     create_directories()
     
-    # 安装依赖
-    if not install_dependencies():
-        sys.exit(1)
+    # 安装依赖 (已由start_app.bat处理，此处跳过以加快启动速度)
+    # if not install_dependencies():
+    #     sys.exit(1)
     
     # 检查Redis（可选）
     redis_available = check_redis_connection()

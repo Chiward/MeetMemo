@@ -17,11 +17,19 @@ if __name__ == "__main__":
     # 设置环境变量
     os.environ.setdefault("CELERY_APP", "app.core.celery_app:celery_app")
     
-    # 启动Celery worker
-    celery_app.worker_main([
+    # 构建启动参数
+    argv = [
         "worker",
         "--loglevel=info",
-        "--concurrency=2",
         "--queues=default,audio_processing,transcription,ai_summary",
         "--hostname=worker@%h"
-    ])
+    ]
+    
+    # Windows环境下必须使用 solo 池
+    if sys.platform == "win32":
+        argv.append("--pool=solo")
+    else:
+        argv.append("--concurrency=2")
+
+    # 启动Celery worker
+    celery_app.worker_main(argv)

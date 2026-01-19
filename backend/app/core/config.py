@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     
     # Whisper配置
     WHISPER_MODEL: str = "base"
-    WHISPER_DEVICE: str = "cpu"  # 'cuda' if GPU available
+    WHISPER_DEVICE: str = "cuda"  # 'cuda' if GPU available
     WHISPER_MODELS_DIR: str = "./models"
     
     # 文件上传配置

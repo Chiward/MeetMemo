@@ -1,5 +1,46 @@
 # MeetMemo AI智能会议纪要生成助手 - 行动指南
 
+## 启动指南 (Quick Start)
+
+在 Windows 环境下启动本应用的详细步骤。
+
+### 1. 启动 Redis
+后端异步任务队列依赖 Redis。
+- 进入 `redis` 目录: `cd redis`
+- 运行: `redis-server.exe redis.windows.conf`
+- 保持该窗口开启。
+
+### 2. 启动 Backend
+后端包含 FastAPI API 服务和 Celery Worker。需要打开两个终端窗口。
+
+#### 2.1 准备环境
+- 进入 `backend` 目录: `cd backend`
+- **强烈推荐** 创建虚拟环境以避免环境冲突: `python -m venv venv`
+- 激活虚拟环境: `venv\Scripts\activate`
+- 安装 CPU 版 PyTorch (确保稳定性): 
+  `pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu`
+- 安装其他依赖: `pip install -r requirements.txt`
+
+#### 2.2 启动 Celery Worker (处理异步任务)
+- 确保在 `backend` 目录下且已激活环境 (`venv\Scripts\activate`)。
+- 运行: `python celery_worker_simple.py`
+- 或者: `celery -A app.core.celery_app worker --loglevel=info --pool=solo`
+
+#### 2.3 启动 FastAPI (API 服务)
+- 确保在 `backend` 目录下且已激活环境 (`venv\Scripts\activate`)。
+- 运行: `python main.py`
+- 或者: `uvicorn main:app --reload --host 0.0.0.0 --port 8000`
+- API 文档地址: http://localhost:8000/docs
+
+### 3. 启动 Frontend
+前端是 React 应用。
+- 进入 `frontend` 目录: `cd frontend`
+- 安装依赖: `npm install`
+- 启动开发服务器: `npm start`
+- 访问地址: http://localhost:3000
+
+---
+
 ## 项目概述
 **项目名称**: MeetMemo - AI智能会议纪要生成助手  
 **项目目标**: 开发一个基于Whisper离线转录 + DeepSeek API的智能会议纪要生成网页应用  
